@@ -18,6 +18,8 @@ model User {
   name      String
   email     String   @unique
   password  String
+  niche     String?
+  plan      String?
   createdAt DateTime @default(now())
 
   accounts  Account[]

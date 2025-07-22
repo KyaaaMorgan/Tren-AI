@@ -26,14 +26,14 @@ export default function DashboardPage() {
   const user = session.user;
 
   // Filter trends for user's niche
-  const nicheTrends = trends.filter(trend => 
+  const nicheTrends = dummyTrends.filter(trend => 
     trend.category === user.niche || 
     trend.keywords.some(keyword => 
       user.niche?.toLowerCase().includes(keyword.toLowerCase())
     )
   ).slice(0, 4);
 
-  const recentGenerations = generatedContent.slice(0, 3);
+  const recentGenerations = dummyGeneratedContent.slice(0, 3);
 
   const getMomentumIcon = (momentum: string) => {
     switch (momentum) {
@@ -106,7 +106,7 @@ export default function DashboardPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium text-gray-600">Content Generated</p>
-                      <p className="text-2xl font-bold text-gray-900">{generatedContent.length}</p>
+                      <p className="text-2xl font-bold text-gray-900">{dummyGeneratedContent.length}</p>
                     </div>
                     <Sparkles className="h-8 w-8 text-green-600" />
                   </div>

@@ -340,7 +340,7 @@ export default function TrendsPage() {
               </Card>
             )}
           </div>
-        </main>
+        </main> 
       </div>
       <NotificationToast />
     </div>

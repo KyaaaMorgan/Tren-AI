@@ -41,8 +41,17 @@ const contentTypes = {
   linkedin: ['Post', 'Article'],
   x: ['Thread', 'Post'],
   blog: ['Article', 'Newsletter'],
-  newsletter: ['Issue', 'Campaign']
+  newsletter: ['Issue', 'Campaign'],
+} as const;
+type Platform = keyof typeof contentTypes;
+
+type SamplesType = {
+  instagram?: Record<string, any>;
+  tiktok?: Record<string, any>;
+  blog?: Record<string, any>;
 };
+
+
 
 export default function GeneratePage() {
   const searchParams = useSearchParams();
@@ -59,8 +68,8 @@ export default function GeneratePage() {
     setTrends
   } = useStore();
 
-  const [selectedPlatform, setSelectedPlatform] = useState('instagram');
-  const [selectedContentType, setSelectedContentType] = useState('Post');
+  const [selectedPlatform, setSelectedPlatform] = useState<Platform>('instagram');
+const [selectedContentType, setSelectedContentType] = useState<string>('Post');
   const [customTopic, setCustomTopic] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [copiedField, setCopiedField] = useState('');
@@ -106,62 +115,19 @@ export default function GeneratePage() {
     }, 2000);
   };
 
-  const generateSampleContent = (platform: string, contentType: string, topic: string) => {
-    const samples = {
-      instagram: {
-        Post: {
-          hook: `🔥 This ${topic.toLowerCase()} hack will blow your mind!`,
-          caption: `I've been experimenting with ${topic.toLowerCase()} for months, and this is the game-changer...
-
-The results speak for themselves:
-✅ Increased engagement by 300%
-✅ Saved 2 hours daily
-✅ Reached 10K new followers
-
-The secret? It's all about timing and authenticity.
-
-Who else is ready to level up their game? Drop a 💯 if you're trying this!`,
-          hashtags: '#ContentCreator #ViralTips #SocialMediaGrowth #CreatorTips #InfluencerLife #ContentStrategy #GrowthHacks #SocialMedia #Viral #Trending',
-          cta: 'Save this post and share with a friend who needs to see this!'
-        },
-        Story: {
-          hook: `Quick tip about ${topic.toLowerCase()}!`,
-          content: 'Swipe up to see the full breakdown →',
-          cta: 'DM me "TIP" for more secrets'
-        }
-      },
-      tiktok: {
-        Video: {
-          hook: `POV: You discover the ${topic.toLowerCase()} hack everyone's talking about`,
-          script: `[Scene 1: Hook - Show problem]
-[Scene 2: Build tension - "But then I discovered..."]
-[Scene 3: Reveal solution - Show the hack]
-[Scene 4: Proof - Show results]
-[Scene 5: CTA - "Try this and thank me later"]`,
-          hashtags: '#fyp #viral #hack #trending #creator #contentcreator #tips #growth'
-        }
-      },
-      blog: {
-        Article: {
-          title: `The Complete Guide to ${topic}: Everything You Need to Know in 2024`,
-          content: `The landscape of ${topic.toLowerCase()} is rapidly evolving, and staying ahead of the curve has never been more important...`,
-          outline: `H1: Introduction to ${topic}
-H2: Why ${topic} Matters in 2024
-H2: Getting Started with ${topic}
-H3: Essential Tools and Resources
-H3: Best Practices and Strategies
-H2: Advanced Techniques
-H2: Common Mistakes to Avoid
-H2: Future Trends and Predictions
-H2: Conclusion and Next Steps`
-        }
-      }
+  const generateSampleContent = (platform: Platform, contentType: string, topic: string) => {
+    const samples: Partial<Record<Platform, Record<string, any>>> = {
+      instagram: { },
+      tiktok: { },
+      blog: { }
     };
-
+  
     return samples[platform]?.[contentType] || {
       content: `AI-generated content about ${topic} for ${platform} ${contentType}`
     };
   };
+  
+  
 
   const copyToClipboard = (text: string, field: string) => {
     navigator.clipboard.writeText(text);
@@ -237,7 +203,7 @@ H2: Conclusion and Next Steps`
                   {/* Platform Selection */}
                   <div className="space-y-2">
                     <Label>Platform</Label>
-                    <Tabs value={selectedPlatform} onValueChange={setSelectedPlatform}>
+                    <Tabs value={selectedPlatform} onValueChange={(value) => setSelectedPlatform(value as Platform)}>
                       <TabsList className="grid grid-cols-3 lg:grid-cols-4 gap-1">
                         {platformOptions.slice(0, 8).map(platform => (
                           <TabsTrigger key={platform.id} value={platform.id} className="text-xs">

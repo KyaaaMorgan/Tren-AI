@@ -237,7 +237,7 @@ export default function OnboardingPage() {
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
                         onClick={() => handlePlatformSelection(platform.id)}
-                      >
+                      > 
                         <Checkbox
                           checked={selectedPlatforms.includes(platform.id)}
                           onChange={() => {}}

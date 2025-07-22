@@ -14,7 +14,7 @@ import {
   Target, 
   Zap, 
   CheckCircle, 
-  ArrowRight,
+  ArrowRight, 
   Play,
   Users,
   Globe,
